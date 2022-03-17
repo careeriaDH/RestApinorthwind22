@@ -67,5 +67,66 @@ namespace RestApinorthwind22.Controllers
             } 
             
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult Remove(string id)
+        {
+            var customer = context.Customers.Find(id);
+            if (customer == null)
+            {
+                return NotFound("Asiakasta id:llä " + id + " ei löytynyt");
+            }
+            else
+            {
+                try
+                {
+                    context.Customers.Remove(customer);
+                    context.SaveChanges();
+
+                    return Ok("Poistettiin asiakas " + customer.CompanyName);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("Poisto ei onnistunut. Ongelma saattaa johtua siitä, jos asiakkaalla on tilauksia?");
+                }
+            }
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult PutEdit(string id, [FromBody] Customers asiakas)
+        {
+
+            try
+            {
+                var customer = context.Customers.Find(id);
+                if (customer != null)
+                {
+                    customer.CompanyName = asiakas.CompanyName;
+                    customer.ContactName = asiakas.ContactName;
+                    customer.ContactTitle = asiakas.ContactTitle;
+                    customer.Country = asiakas.Country;
+                    customer.Address = asiakas.Address;
+                    customer.City = asiakas.City;
+                    customer.PostalCode = asiakas.PostalCode;
+                    customer.Phone = asiakas.Phone;
+                    customer.Fax = asiakas.Fax;
+
+                    context.SaveChanges();
+                    return Ok("Muokattu asiakasta: " + customer.CompanyName);
+                }
+                else
+                {
+                    return NotFound("Päivitettävää asiakasta ei löytynyt!");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Jokin meni pieleen asiakasta päivitettäessä. Alla lisätietoa" + e);
+            }
+
+        }
+
     }
 }
