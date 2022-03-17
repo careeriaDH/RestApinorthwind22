@@ -7,12 +7,12 @@ namespace RestApinorthwind22.Models
     {
         public CustomerDemographic()
         {
-            Customers = new HashSet<Customer>();
+            Customers = new HashSet<Customers>();
         }
 
         public string CustomerTypeId { get; set; } = null!;
         public string? CustomerDesc { get; set; }
 
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Customers> Customers { get; set; }
     }
 }

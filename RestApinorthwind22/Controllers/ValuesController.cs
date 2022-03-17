@@ -23,7 +23,7 @@ namespace RestApinorthwind22.Controllers
             }
             else
             {
-                return BadRequest("Antamallasi koodilla ei löydy dokumentaatiota");
+                return BadRequest("Antamallasi koodilla ei löydy dokumentaatiota, päiväys: " + DateTime.Now.ToString());
             }
         }
     }

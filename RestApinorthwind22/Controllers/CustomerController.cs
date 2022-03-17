@@ -8,35 +8,64 @@ namespace RestApinorthwind22.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private static readonly northwindContext context = new northwindContext();
+        
         [HttpGet]
-        [Route("")]
-        public List<Customer> GetAll()
+        public ActionResult GetAll()
         {
-            northwindContext context = new northwindContext();
-            List<Customer> customers = context.Customers.ToList();
-            return customers;
+            var customers = context.Customers;
+            return Ok(customers);
+
         }
 
         [HttpGet]
         [Route("{id}")]
-        public Customer GetOneCustomer(string id)
+        public ActionResult GetOneCustomer(string id)
         {
-            northwindContext context = new northwindContext();
-            Customer customer = context.Customers.Find(id);
-            return customer;
+            try
+            {
+                var asiakas = context.Customers.Find(id);
+
+                if (asiakas == null)
+                {
+                    return NotFound("Asiakasta id:llä " + id + " ei löytynyt.");
+                }
+
+                return Ok(asiakas);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("country/{key}")]
-        public List<Customer> GetSomeCustomers(string key)
+        public List<Customers> GetSomeCustomers(string key)
         {
-            northwindContext context = new northwindContext();
             
             var someCustomers = from c in context.Customers
                                 where c.Country == key
                                 select c;
 
             return someCustomers.ToList();
+        }
+
+        [HttpPost] //<--filtteri joka sallii vain post metodit
+        [Route("")]
+        public ActionResult PostCreateNew([FromBody] Customers asiakas)
+        {
+            try
+            {
+                context.Customers.Add(asiakas);
+                context.SaveChanges();
+                return Ok("Lisättiin asiakas " + asiakas.CompanyName); //palauttaa vastaluodun uuden asiakkaan avaimen arvon
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Jokin meni pieleen asiakasta lisättäessä" + e);
+            } 
+            
         }
     }
 }

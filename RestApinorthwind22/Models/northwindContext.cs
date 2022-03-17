@@ -22,7 +22,7 @@ namespace RestApinorthwind22.Models
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
         public virtual DbSet<CurrentProductList> CurrentProductLists { get; set; } = null!;
         public virtual DbSet<CustApu> CustApus { get; set; } = null!;
-        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Customers> Customers { get; set; } = null!;
         public virtual DbSet<CustomerAndSuppliersByCity> CustomerAndSuppliersByCities { get; set; } = null!;
         public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; } = null!;
         public virtual DbSet<Documentation> Documentation { get; set; } = null!;
@@ -189,7 +189,7 @@ namespace RestApinorthwind22.Models
                 entity.Property(e => e.Region).HasMaxLength(15);
             });
 
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasIndex(e => e.City, "City");
 
@@ -229,7 +229,7 @@ namespace RestApinorthwind22.Models
                     .UsingEntity<Dictionary<string, object>>(
                         "CustomerCustomerDemo",
                         l => l.HasOne<CustomerDemographic>().WithMany().HasForeignKey("CustomerTypeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo"),
-                        r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo_Customers"),
+                        r => r.HasOne<Customers>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo_Customers"),
                         j =>
                         {
                             j.HasKey("CustomerId", "CustomerTypeId").IsClustered(false);
