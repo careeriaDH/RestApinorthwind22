@@ -346,8 +346,6 @@ namespace RestApinorthwind22.Models
 
                 entity.Property(e => e.Country).HasMaxLength(15);
 
-                entity.Property(e => e.Extension).HasMaxLength(4);
-
                 entity.Property(e => e.FirstName).HasMaxLength(10);
 
                 entity.Property(e => e.HireDate).HasColumnType("datetime");
@@ -370,10 +368,9 @@ namespace RestApinorthwind22.Models
 
                 entity.Property(e => e.TitleOfCourtesy).HasMaxLength(25);
 
-                entity.HasOne(d => d.ReportsToNavigation)
-                    .WithMany(p => p.InverseReportsToNavigation)
-                    .HasForeignKey(d => d.ReportsTo)
-                    .HasConstraintName("FK_Employees_Employees");
+                //entity.HasOne(d => d.ReportsToNavigation)
+                //    .WithMany(p => p.InverseReportsToNavigation)
+                //    .HasConstraintName("FK_Employees_Employees");
 
                 entity.HasMany(d => d.Territories)
                     .WithMany(p => p.Employees)

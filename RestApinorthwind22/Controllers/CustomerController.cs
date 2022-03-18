@@ -88,7 +88,7 @@ namespace RestApinorthwind22.Controllers
                 }
                 catch (Exception e)
                 {
-                    return BadRequest("Poisto ei onnistunut. Ongelma saattaa johtua siitä, jos asiakkaalla on tilauksia?");
+                    return BadRequest("Poisto ei onnistunut. Ongelma saattaa johtua siitä, jos asiakkaalla on tilauksia? " + e);
                 }
             }
         }
